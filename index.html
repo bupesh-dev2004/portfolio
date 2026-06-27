@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alex Johnson | Frontend Developer Portfolio</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              navy: {
+                DEFAULT: '#0a0f1e',
+                card: '#111a36',
+                border: '#1e294b',
+              },
+              electric: {
+                blue: '#4f8ef7',
+                glow: 'rgba(79, 142, 247, 0.15)',
+              }
+            },
+            animation: {
+              'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'float-delayed': 'float 8s ease-in-out infinite 2s',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-15px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <style type="text/css">
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f8fafc;
+      }
+      .dark ::-webkit-scrollbar-track {
+        background: #0a0f1e;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #4f8ef7;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3b82f6;
+      }
+
+      /* Global CSS Transition */
+      body {
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+
+      /* Custom Interactive Cursor */
+      #custom-cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #4f8ef7;
+        border-radius: 50%;
+        position: fixed;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 9999;
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+      }
+      #custom-cursor-ring {
+        width: 40px;
+        height: 40px;
+        border: 1.5px solid #4f8ef7;
+        border-radius: 50%;
+        position: fixed;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 9998;
+        transition: transform 0.08s ease-out, width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
+      }
+
+      /* Scroll-Triggered Reveal Animations */
+      .reveal-element {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .reveal-element.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Hover Effects on Cards */
+      .project-card .overlay-slide {
+        transform: translateY(101%);
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .project-card:hover .overlay-slide {
+        transform: translateY(0);
+      }
+
+      /* Glassmorphism Styles */
+      .glass-nav {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      /* Button Morphing Success Animation */
+      @keyframes check-draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      .success-checkmark {
+        stroke-dasharray: 80;
+        stroke-dashoffset: 80;
+        animation: check-draw 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-[#0a0f1e] dark:text-slate-100 transition-colors duration-500 font-sans selection:bg-[#4f8ef7]/30 selection:text-white">
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-[#4f8ef7] z-50 transition-all duration-75" style="width: 0%;"></div>
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor-dot" class="hidden md:block"></div>
+    <div id="custom-cursor-ring" class="hidden md:block"></div>
+
+    <!-- Navigation Header -->
+    <header id="navbar" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 py-6 px-6 lg:px-16 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="text-2xl font-extrabold tracking-wider bg-gradient-to-r from-[#4f8ef7] to-[#8ab4f8] bg-clip-text text-transparent cursor-hover">
+        AJ<span class="text-[#4f8ef7]">.</span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+        <a href="#about" class="hover:text-[#4f8ef7] transition-colors cursor-hover text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white">About</a>
+        <a href="#projects" class="hover:text-[#4f8ef7] transition-colors cursor-hover text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white">Projects</a>
+        <a href="#experience" class="hover:text-[#4f8ef7] transition-colors cursor-hover text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white">Experience</a>
+        <a href="#contact" class="hover:text-[#4f8ef7] transition-colors cursor-hover text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white">Contact</a>
+      </nav>
+
+      <!-- Theme & Action Actions -->
+      <div class="hidden md:flex items-center space-x-6">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="p-2.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 cursor-hover" aria-label="Toggle Theme">
+          <i data-lucide="moon" class="w-5 h-5 block dark:block hidden"></i>
+          <i data-lucide="sun" class="w-5 h-5 dark:hidden block"></i>
+        </button>
+        <!-- CV CTA -->
+        <a href="#contact" class="px-5 py-2.5 rounded-full border border-[#4f8ef7] text-[#4f8ef7] text-sm font-semibold hover:bg-[#4f8ef7] hover:text-white transition-all cursor-hover shadow-lg shadow-[#4f8ef7]/10">
+          Get in Touch
+        </a>
+      </div>
+
+      <!-- Mobile Nav Buttons -->
+      <div class="flex items-center space-x-4 md:hidden">
+        <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300" aria-label="Toggle Theme">
+          <i data-lucide="moon" class="w-5 h-5 block dark:block hidden"></i>
+          <i data-lucide="sun" class="w-5 h-5 dark:hidden block"></i>
+        </button>
+        <button id="mobile-menu-btn" class="p-2 text-slate-700 dark:text-slate-300" aria-label="Open Mobile Menu">
+          <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-drawer" class="fixed inset-0 bg-slate-50/98 dark:bg-[#0a0f1e]/98 z-30 transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center space-y-8 text-xl font-semibold">
+      <a href="#about" class="mobile-nav-link text-slate-800 dark:text-slate-200 hover:text-[#4f8ef7] dark:hover:text-[#4f8ef7] transition-colors" onclick="toggleMobileMenu()">About</a>
+      <a href="#projects" class="mobile-nav-link text-slate-800 dark:text-slate-200 hover:text-[#4f8ef7] dark:hover:text-[#4f8ef7] transition-colors" onclick="toggleMobileMenu()">Projects</a>
+      <a href="#experience" class="mobile-nav-link text-slate-800 dark:text-slate-200 hover:text-[#4f8ef7] dark:hover:text-[#4f8ef7] transition-colors" onclick="toggleMobileMenu()">Experience</a>
+      <a href="#contact" class="mobile-nav-link text-slate-800 dark:text-slate-200 hover:text-[#4f8ef7] dark:hover:text-[#4f8ef7] transition-colors" onclick="toggleMobileMenu()">Contact</a>
+      <a href="#contact" class="px-8 py-3 rounded-full bg-[#4f8ef7] text-white text-base hover:bg-[#3b82f6] transition-all" onclick="toggleMobileMenu()">
+        Download Resume
+      </a>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <section class="min-h-screen relative overflow-hidden flex items-center justify-center py-20 px-6 lg:px-16 bg-slate-50 dark:bg-[#0a0f1e]">
+      <!-- Ambient Rotating Blur Spheres -->
+      <div class="absolute top-[10%] left-[5%] w-72 h-72 md:w-[450px] md:h-[450px] rounded-full bg-[#4f8ef7]/10 dark:bg-[#4f8ef7]/15 blur-[100px] animate-pulse-slow"></div>
+      <div class="absolute bottom-[10%] right-[5%] w-80 h-80 md:w-[500px] md:h-[500px] rounded-full bg-violet-500/10 dark:bg-violet-500/15 blur-[120px] animate-float"></div>
+
+      <!-- Hero Grid / Layout -->
+      <div class="max-w-6xl w-full mx-auto relative z-10 flex flex-col justify-center text-center">
+        <!-- Floating Greeting Badge -->
+        <div class="hero-fade inline-flex items-center space-x-2 bg-[#4f8ef7]/10 dark:bg-[#4f8ef7]/15 border border-[#4f8ef7]/20 rounded-full px-4 py-1.5 mx-auto mb-6">
+          <span class="w-2 h-2 rounded-full bg-[#4f8ef7] animate-ping"></span>
+          <span class="text-xs lg:text-sm font-semibold tracking-wider uppercase text-[#4f8ef7]">Available for full-time opportunities</span>
+        </div>
+
+        <!-- Name Title -->
+        <h1 class="hero-fade text-4xl sm:text-6xl md:text-8xl font-black tracking-tight mb-4 text-slate-900 dark:text-white leading-none">
+          Alex Johnson
+        </h1>
+
+        <!-- Typing Role Section -->
+        <div class="hero-fade text-xl sm:text-2xl md:text-3xl font-medium tracking-wide text-slate-600 dark:text-slate-300 mb-8 h-12 flex items-center justify-center">
+          <span class="mr-2">I am a</span>
+          <span id="typed-role" class="text-[#4f8ef7] font-bold border-r-2 border-[#4f8ef7] pr-1"></span>
+        </div>
+
+        <!-- Bio Sentence -->
+        <p class="hero-fade max-w-2xl mx-auto text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+          Crafting delightful digital experiences by blending cutting-edge engineering with fluid layout motion, responsive layouts, and elegant design.
+        </p>
+
+        <!-- CTA Action Buttons -->
+        <div class="hero-fade flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <a href="#projects" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#4f8ef7] text-white font-bold hover:bg-[#3b82f6] transition-all transform hover:-translate-y-1 shadow-lg shadow-[#4f8ef7]/25 cursor-hover flex items-center justify-center space-x-2">
+            <span>View Projects</span>
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </a>
+          <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-[#4f8ef7] dark:hover:border-[#4f8ef7] text-slate-700 dark:text-slate-300 hover:text-[#4f8ef7] dark:hover:text-[#4f8ef7] font-bold transition-all transform hover:-translate-y-1 cursor-hover flex items-center justify-center space-x-2">
+            <i data-lucide="download" class="w-5 h-5"></i>
+            <span>Download Resume</span>
+          </a>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center animate-bounce mt-12">
+          <span class="text-xs text-slate-500 tracking-widest uppercase mb-1">Scroll</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ABOUT SECTION -->
+    <section id="about" class="reveal-element py-24 px-6 lg:px-16 bg-slate-100 dark:bg-[#0c1224] border-t border-slate-200 dark:border-slate-900">
+      <div class="max-w-6xl w-full mx-auto">
+        <!-- Section Title -->
+        <div class="mb-16 text-center md:text-left">
+          <p class="text-xs uppercase tracking-widest font-bold text-[#4f8ef7] mb-2">01. Background</p>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white">About Me</h2>
+          <div class="w-16 h-1 bg-[#4f8ef7] mt-4 mx-auto md:mx-0 rounded-full"></div>
+        </div>
+
+        <!-- Grid Container -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <!-- Profile photo placeholder / design vector -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden group">
+              <!-- Animated Glowing Outer Frame -->
+              <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#4f8ef7] to-violet-600 opacity-75 blur-md group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+              
+              <!-- Frame container -->
+              <div class="relative w-full h-full rounded-2xl overflow-hidden bg-white dark:bg-navy p-2">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&h=600&q=80" alt="Alex Johnson" class="w-full h-full object-cover rounded-xl transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-[#4f8ef7]/10 group-hover:bg-transparent transition-all duration-500"></div>
+              </div>
+              
+              <!-- Floating decoration Grid -->
+              <div class="absolute -bottom-4 -left-4 w-24 h-24 bg-[radial-gradient(#4f8ef7_1.5px,transparent_1.5px)] [background-size:8px_8px] opacity-60"></div>
+            </div>
+          </div>
+
+          <!-- Bio & Skill Bars -->
+          <div class="lg:col-span-7 space-y-6">
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Designing modern, scalable and accessible user interfaces</h3>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
+              I am Alex Johnson, a dedicated frontend engineer with over 3 years of professional experience writing high-quality code. I build web applications using modern paradigms, prioritizing high fidelity, performant rendering, and strict semantic structures.
+            </p>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
+              My engineering philosophy revolves around creating simple, reliable architectures while injecting satisfying, purposeful motion feedback into customer workflows.
+            </p>
+
+            <!-- Skill Icons & Animated Progress Bars -->
+            <div class="space-y-4 pt-4">
+              <h4 class="text-sm font-extrabold uppercase tracking-wider text-[#4f8ef7]">Core Technical Stack</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Skill 1 -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-2">
+                      <i data-lucide="code-2" class="w-4 h-4 text-[#4f8ef7]"></i>
+                      <span class="font-semibold text-slate-700 dark:text-slate-300">HTML5 / CSS3 / ES6+</span>
+                    </div>
+                    <span class="text-slate-500 dark:text-slate-400 font-mono skill-percent" data-target="95">0%</span>
+                  </div>
+                  <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="skill-progress-bar h-full bg-[#4f8ef7] w-0 rounded-full transition-all duration-1000 ease-out" data-width="95%"></div>
+                  </div>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-2">
+                      <i data-lucide="atom" class="w-4 h-4 text-[#4f8ef7]"></i>
+                      <span class="font-semibold text-slate-700 dark:text-slate-300">React.js / Next.js</span>
+                    </div>
+                    <span class="text-slate-500 dark:text-slate-400 font-mono skill-percent" data-target="90">0%</span>
+                  </div>
+                  <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="skill-progress-bar h-full bg-[#4f8ef7] w-0 rounded-full transition-all duration-1000 ease-out" data-width="90%"></div>
+                  </div>
+                </div>
+
+                <!-- Skill 3 -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-2">
+                      <i data-lucide="palette" class="w-4 h-4 text-[#4f8ef7]"></i>
+                      <span class="font-semibold text-slate-700 dark:text-slate-300">Tailwind CSS / Motion</span>
+                    </div>
+                    <span class="text-slate-500 dark:text-slate-400 font-mono skill-percent" data-target="95">0%</span>
+                  </div>
+                  <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="skill-progress-bar h-full bg-[#4f8ef7] w-0 rounded-full transition-all duration-1000 ease-out" data-width="95%"></div>
+                  </div>
+                </div>
+
+                <!-- Skill 4 -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-2">
+                      <i data-lucide="shield" class="w-4 h-4 text-[#4f8ef7]"></i>
+                      <span class="font-semibold text-slate-700 dark:text-slate-300">TypeScript</span>
+                    </div>
+                    <span class="text-slate-500 dark:text-slate-400 font-mono skill-percent" data-target="85">0%</span>
+                  </div>
+                  <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="skill-progress-bar h-full bg-[#4f8ef7] w-0 rounded-full transition-all duration-1000 ease-out" data-width="85%"></div>
+                  </div>
+                </div>
+
+                <!-- Skill 5 -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-2">
+                      <i data-lucide="server" class="w-4 h-4 text-[#4f8ef7]"></i>
+                      <span class="font-semibold text-slate-700 dark:text-slate-300">Node.js / Express</span>
+                    </div>
+                    <span class="text-slate-500 dark:text-slate-400 font-mono skill-percent" data-target="80">0%</span>
+                  </div>
+                  <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="skill-progress-bar h-full bg-[#4f8ef7] w-0 rounded-full transition-all duration-1000 ease-out" data-width="80%"></div>
+                  </div>
+                </div>
+
+                <!-- Skill 6 -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-2">
+                      <i data-lucide="git-branch" class="w-4 h-4 text-[#4f8ef7]"></i>
+                      <span class="font-semibold text-slate-700 dark:text-slate-300">Git / CI/CD Pipelines</span>
+                    </div>
+                    <span class="text-slate-500 dark:text-slate-400 font-mono skill-percent" data-target="88">0%</span>
+                  </div>
+                  <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="skill-progress-bar h-full bg-[#4f8ef7] w-0 rounded-full transition-all duration-1000 ease-out" data-width="88%"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PROJECTS SECTION -->
+    <section id="projects" class="reveal-element py-24 px-6 lg:px-16 bg-white dark:bg-[#0a0f1e] border-t border-slate-200 dark:border-slate-900">
+      <div class="max-w-6xl w-full mx-auto">
+        <!-- Section Title -->
+        <div class="mb-16 text-center">
+          <p class="text-xs uppercase tracking-widest font-bold text-[#4f8ef7] mb-2">02. Creative Work</p>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white">Featured Projects</h2>
+          <div class="w-16 h-1 bg-[#4f8ef7] mt-4 mx-auto rounded-full"></div>
+        </div>
+
+        <!-- 3-Column Card Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Project Card 1 -->
+          <div class="project-card relative rounded-2xl overflow-hidden bg-slate-50 dark:bg-[#111a36] border border-slate-200 dark:border-slate-800 flex flex-col h-full cursor-hover" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.25">
+            <!-- Project Image with overlays -->
+            <div class="relative h-48 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Aether SaaS Dashboard" class="w-full h-full object-cover" />
+              <!-- Hover Overlay Slide Up -->
+              <div class="overlay-slide absolute inset-0 bg-[#0a0f1e]/90 flex items-center justify-center space-x-6 z-10">
+                <a href="#" class="p-3 bg-[#4f8ef7] rounded-full text-white hover:scale-110 transition-transform flex items-center justify-center cursor-hover" title="Live Demo">
+                  <i data-lucide="external-link" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="p-3 bg-slate-800 rounded-full text-white hover:scale-110 transition-transform flex items-center justify-center cursor-hover" title="GitHub Repository">
+                  <i data-lucide="github" class="w-5 h-5"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-6 flex flex-col flex-grow">
+              <span class="text-[10px] font-bold tracking-widest text-[#4f8ef7] uppercase mb-1">Analytics Dashboard</span>
+              <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Aether SaaS Dashboard</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                A premium, responsive AI-driven analytics dashboard featuring fluid data rendering, fully customizable widget matrices, and complex interactive charts.
+              </p>
+              <!-- Tech Stack Tags -->
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">React.js</span>
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Tailwind</span>
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Recharts</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 2 -->
+          <div class="project-card relative rounded-2xl overflow-hidden bg-slate-50 dark:bg-[#111a36] border border-slate-200 dark:border-slate-800 flex flex-col h-full cursor-hover" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.25">
+            <!-- Project Image with overlays -->
+            <div class="relative h-48 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80" alt="Nova Collaborative Workspace" class="w-full h-full object-cover" />
+              <!-- Hover Overlay Slide Up -->
+              <div class="overlay-slide absolute inset-0 bg-[#0a0f1e]/90 flex items-center justify-center space-x-6 z-10">
+                <a href="#" class="p-3 bg-[#4f8ef7] rounded-full text-white hover:scale-110 transition-transform flex items-center justify-center cursor-hover" title="Live Demo">
+                  <i data-lucide="external-link" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="p-3 bg-slate-800 rounded-full text-white hover:scale-110 transition-transform flex items-center justify-center cursor-hover" title="GitHub Repository">
+                  <i data-lucide="github" class="w-5 h-5"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-6 flex flex-col flex-grow">
+              <span class="text-[10px] font-bold tracking-widest text-[#4f8ef7] uppercase mb-1">Collaboration Hub</span>
+              <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Nova Workspace</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                A high-speed canvas-driven collaborative virtual blackboard featuring custom room handshakes, instant document synchronization, and vector editing.
+              </p>
+              <!-- Tech Stack Tags -->
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">TypeScript</span>
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">WebSockets</span>
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Canvas API</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 3 -->
+          <div class="project-card relative rounded-2xl overflow-hidden bg-slate-50 dark:bg-[#111a36] border border-slate-200 dark:border-slate-800 flex flex-col h-full cursor-hover" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.25">
+            <!-- Project Image with overlays -->
+            <div class="relative h-48 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="Apex E-Commerce Platform" class="w-full h-full object-cover" />
+              <!-- Hover Overlay Slide Up -->
+              <div class="overlay-slide absolute inset-0 bg-[#0a0f1e]/90 flex items-center justify-center space-x-6 z-10">
+                <a href="#" class="p-3 bg-[#4f8ef7] rounded-full text-white hover:scale-110 transition-transform flex items-center justify-center cursor-hover" title="Live Demo">
+                  <i data-lucide="external-link" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="p-3 bg-slate-800 rounded-full text-white hover:scale-110 transition-transform flex items-center justify-center cursor-hover" title="GitHub Repository">
+                  <i data-lucide="github" class="w-5 h-5"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-6 flex flex-col flex-grow">
+              <span class="text-[10px] font-bold tracking-widest text-[#4f8ef7] uppercase mb-1">E-Commerce System</span>
+              <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Apex Storefront</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                A high-converting digital e-commerce storefront with complex item search filters, instant cart updates, and robust Stripe payment routing.
+              </p>
+              <!-- Tech Stack Tags -->
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Vite</span>
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Redux Toolkit</span>
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Stripe API</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. EXPERIENCE / TIMELINE SECTION -->
+    <section id="experience" class="reveal-element py-24 px-6 lg:px-16 bg-slate-100 dark:bg-[#0c1224] border-t border-slate-200 dark:border-slate-900">
+      <div class="max-w-6xl w-full mx-auto">
+        <!-- Section Title -->
+        <div class="mb-20 text-center">
+          <p class="text-xs uppercase tracking-widest font-bold text-[#4f8ef7] mb-2">03. Career Track</p>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white">Professional History</h2>
+          <div class="w-16 h-1 bg-[#4f8ef7] mt-4 mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Vertical Timeline Container -->
+        <div class="relative timeline-container max-w-4xl mx-auto py-8">
+          <!-- Main Static Background Line -->
+          <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 h-full w-[2px] bg-slate-200 dark:bg-slate-800"></div>
+          
+          <!-- Animated Active Line Drawn on Scroll -->
+          <div id="timeline-active-line" class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 w-[2.5px] bg-[#4f8ef7] origin-top transition-all duration-100 ease-out" style="height: 0%;"></div>
+
+          <!-- Timeline Item 1 (Left on desktop) -->
+          <div class="relative flex flex-col md:flex-row items-stretch mb-16 md:mb-12 group">
+            <!-- Timeline Center Node Indicator -->
+            <div class="absolute left-4 md:left-1/2 transform -translate-x-[7px] md:-translate-x-[9px] top-6 w-[16px] h-[16px] md:w-[18px] md:h-[18px] rounded-full bg-white dark:bg-navy border-2 border-slate-300 dark:border-slate-700 group-hover:border-[#4f8ef7] group-hover:bg-[#4f8ef7] transition-all z-10 shadow-md"></div>
+            
+            <!-- Left Grid Content (Visible Card) -->
+            <div class="w-full md:w-1/2 pl-12 md:pl-0 md:pr-12 md:text-right flex flex-col items-start md:items-end">
+              <div class="p-6 rounded-2xl bg-white dark:bg-[#111a36] border border-slate-200 dark:border-slate-800 shadow-xl transition-all hover:border-[#4f8ef7]/30 max-w-md">
+                <span class="inline-block px-3 py-1 text-xs font-bold rounded-full bg-[#4f8ef7]/10 text-[#4f8ef7] mb-3">2024 - Present</span>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Senior Frontend Engineer</h3>
+                <h4 class="text-slate-500 dark:text-slate-300 font-semibold mb-4">Innovate Tech</h4>
+                <ul class="text-slate-600 dark:text-slate-400 text-sm space-y-2 text-left">
+                  <li class="flex items-start">
+                    <span class="text-[#4f8ef7] mr-2">•</span>
+                    <span>Lead modernization and architecture design of user interfaces, enhancing render performance by 40%.</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-[#4f8ef7] mr-2">•</span>
+                    <span>Oversee core design token frameworks, aligning web assets with WCAG AA accessibility mandates.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Right Empty Space Grid (Spacer for desktop) -->
+            <div class="hidden md:block w-1/2"></div>
+          </div>
+
+          <!-- Timeline Item 2 (Right on desktop) -->
+          <div class="relative flex flex-col md:flex-row items-stretch mb-16 md:mb-12 group">
+            <!-- Timeline Center Node Indicator -->
+            <div class="absolute left-4 md:left-1/2 transform -translate-x-[7px] md:-translate-x-[9px] top-6 w-[16px] h-[16px] md:w-[18px] md:h-[18px] rounded-full bg-white dark:bg-navy border-2 border-slate-300 dark:border-slate-700 group-hover:border-[#4f8ef7] group-hover:bg-[#4f8ef7] transition-all z-10 shadow-md"></div>
+            
+            <!-- Left Empty Space Grid -->
+            <div class="hidden md:block w-1/2"></div>
+            
+            <!-- Right Grid Content (Visible Card) -->
+            <div class="w-full md:w-1/2 pl-12 flex flex-col items-start">
+              <div class="p-6 rounded-2xl bg-white dark:bg-[#111a36] border border-slate-200 dark:border-slate-800 shadow-xl transition-all hover:border-[#4f8ef7]/30 max-w-md">
+                <span class="inline-block px-3 py-1 text-xs font-bold rounded-full bg-[#4f8ef7]/10 text-[#4f8ef7] mb-3">2022 - 2024</span>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Frontend Developer</h3>
+                <h4 class="text-slate-500 dark:text-slate-300 font-semibold mb-4">PixelCraft Studio</h4>
+                <ul class="text-slate-600 dark:text-slate-400 text-sm space-y-2 text-left">
+                  <li class="flex items-start">
+                    <span class="text-[#4f8ef7] mr-2">•</span>
+                    <span>Created rich vector animation layouts and custom interactions for highly complex client websites.</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-[#4f8ef7] mr-2">•</span>
+                    <span>Integrated robust GraphQL microservices and minimized initial page payload sizes by 25%.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline Item 3 (Left on desktop) -->
+          <div class="relative flex flex-col md:flex-row items-stretch group">
+            <!-- Timeline Center Node Indicator -->
+            <div class="absolute left-4 md:left-1/2 transform -translate-x-[7px] md:-translate-x-[9px] top-6 w-[16px] h-[16px] md:w-[18px] md:h-[18px] rounded-full bg-white dark:bg-navy border-2 border-slate-300 dark:border-slate-700 group-hover:border-[#4f8ef7] group-hover:bg-[#4f8ef7] transition-all z-10 shadow-md"></div>
+            
+            <!-- Left Grid Content (Visible Card) -->
+            <div class="w-full md:w-1/2 pl-12 md:pl-0 md:pr-12 md:text-right flex flex-col items-start md:items-end">
+              <div class="p-6 rounded-2xl bg-white dark:bg-[#111a36] border border-slate-200 dark:border-slate-800 shadow-xl transition-all hover:border-[#4f8ef7]/30 max-w-md">
+                <span class="inline-block px-3 py-1 text-xs font-bold rounded-full bg-[#4f8ef7]/10 text-[#4f8ef7] mb-3">2021 - 2022</span>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">UI/UX Engineer Intern</h3>
+                <h4 class="text-slate-500 dark:text-slate-300 font-semibold mb-4">StartUp Labs</h4>
+                <ul class="text-slate-600 dark:text-slate-400 text-sm space-y-2 text-left">
+                  <li class="flex items-start">
+                    <span class="text-[#4f8ef7] mr-2">•</span>
+                    <span>Translated Figma wireframes into responsive, grid-aligned semantic layouts.</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-[#4f8ef7] mr-2">•</span>
+                    <span>Maintained and customized internal reusable component lists using Tailwind utility configurations.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Right Empty Space Grid -->
+            <div class="hidden md:block w-1/2"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CONTACT SECTION -->
+    <section id="contact" class="reveal-element py-24 px-6 lg:px-16 bg-white dark:bg-[#0a0f1e] border-t border-slate-200 dark:border-slate-900">
+      <div class="max-w-6xl w-full mx-auto">
+        <!-- Section Title -->
+        <div class="mb-16 text-center">
+          <p class="text-xs uppercase tracking-widest font-bold text-[#4f8ef7] mb-2">04. Connection</p>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white">Get In Touch</h2>
+          <div class="w-16 h-1 bg-[#4f8ef7] mt-4 mx-auto rounded-full"></div>
+        </div>
+
+        <!-- 2-Column Split Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          <!-- Column 1: Info and Socials -->
+          <div class="lg:col-span-5 space-y-8">
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white leading-tight">Let's build something remarkable together.</h3>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
+              I am actively seeking full-time positions as a Frontend Developer or UI Engineer. If you have an exciting project, want to discuss custom contracts, or just want to chat about front-end mechanics, reach out below!
+            </p>
+            
+            <!-- Contact Grid Details -->
+            <div class="space-y-4">
+              <div class="flex items-center space-x-4 p-4 rounded-xl bg-slate-50 dark:bg-[#111a36]/50 border border-slate-200 dark:border-slate-800/60 shadow-sm">
+                <div class="p-3 rounded-lg bg-[#4f8ef7]/10 text-[#4f8ef7]">
+                  <i data-lucide="mail" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Email Address</p>
+                  <a href="mailto:alex.johnson@example.com" class="text-sm font-semibold hover:text-[#4f8ef7] transition-colors cursor-hover text-slate-900 dark:text-white">alex.johnson@example.com</a>
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-4 p-4 rounded-xl bg-slate-50 dark:bg-[#111a36]/50 border border-slate-200 dark:border-slate-800/60 shadow-sm">
+                <div class="p-3 rounded-lg bg-[#4f8ef7]/10 text-[#4f8ef7]">
+                  <i data-lucide="map-pin" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Current Location</p>
+                  <p class="text-sm font-semibold text-slate-900 dark:text-white">San Francisco, California</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="space-y-3">
+              <p class="text-xs text-slate-500 font-extrabold uppercase tracking-widest">Connect with me online</p>
+              <div class="flex items-center space-x-4">
+                <a href="#" class="p-3.5 rounded-full bg-slate-200 hover:bg-[#4f8ef7] hover:text-white dark:bg-slate-800/60 dark:hover:bg-[#4f8ef7] hover:scale-110 hover:-translate-y-0.5 transition-all cursor-hover text-slate-600 dark:text-slate-300 flex items-center justify-center">
+                  <i data-lucide="github" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="p-3.5 rounded-full bg-slate-200 hover:bg-[#4f8ef7] hover:text-white dark:bg-slate-800/60 dark:hover:bg-[#4f8ef7] hover:scale-110 hover:-translate-y-0.5 transition-all cursor-hover text-slate-600 dark:text-slate-300 flex items-center justify-center">
+                  <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="p-3.5 rounded-full bg-slate-200 hover:bg-[#4f8ef7] hover:text-white dark:bg-slate-800/60 dark:hover:bg-[#4f8ef7] hover:scale-110 hover:-translate-y-0.5 transition-all cursor-hover text-slate-600 dark:text-slate-300 flex items-center justify-center">
+                  <i data-lucide="twitter" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="p-3.5 rounded-full bg-slate-200 hover:bg-[#4f8ef7] hover:text-white dark:bg-slate-800/60 dark:hover:bg-[#4f8ef7] hover:scale-110 hover:-translate-y-0.5 transition-all cursor-hover text-slate-600 dark:text-slate-300 flex items-center justify-center">
+                  <i data-lucide="dribbble" class="w-5 h-5"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Elegant Form -->
+          <div class="lg:col-span-7 p-8 rounded-2xl bg-slate-50 dark:bg-[#111a36] border border-slate-200 dark:border-slate-800 shadow-2xl">
+            <form id="contact-form" class="space-y-6">
+              
+              <!-- Input Field Name -->
+              <div class="space-y-2 relative">
+                <label for="user_name" class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">Your Name</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-500 pointer-events-none">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                  </span>
+                  <input type="text" id="user_name" required name="user_name" placeholder="John Doe" class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-navy text-slate-900 dark:text-slate-100 focus:outline-none focus:border-[#4f8ef7] focus:ring-1 focus:ring-[#4f8ef7] transition-all cursor-hover text-sm" />
+                </div>
+              </div>
+
+              <!-- Input Field Email -->
+              <div class="space-y-2 relative">
+                <label for="user_email" class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">Email Address</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-500 pointer-events-none">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                  </span>
+                  <input type="email" id="user_email" required name="user_email" placeholder="john@example.com" class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-navy text-slate-900 dark:text-slate-100 focus:outline-none focus:border-[#4f8ef7] focus:ring-1 focus:ring-[#4f8ef7] transition-all cursor-hover text-sm" />
+                </div>
+              </div>
+
+              <!-- Input Field Message -->
+              <div class="space-y-2 relative">
+                <label for="user_message" class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">Message Details</label>
+                <div class="relative">
+                  <span class="absolute top-4 left-4 text-slate-500 pointer-events-none">
+                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                  </span>
+                  <textarea id="user_message" required name="user_message" rows="5" placeholder="Let me know how we can collaborate..." class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-navy text-slate-900 dark:text-slate-100 focus:outline-none focus:border-[#4f8ef7] focus:ring-1 focus:ring-[#4f8ef7] transition-all cursor-hover text-sm resize-none"></textarea>
+                </div>
+              </div>
+
+              <!-- Morphing Action Submit Button -->
+              <button type="submit" id="submit-btn" class="w-full py-4 rounded-xl bg-[#4f8ef7] text-white font-bold hover:bg-[#3b82f6] transition-all duration-300 shadow-lg shadow-[#4f8ef7]/25 flex items-center justify-center space-x-3 cursor-hover relative overflow-hidden">
+                <span id="btn-text" class="transition-all duration-300">Send Message</span>
+                <span id="btn-spinner" class="hidden absolute">
+                  <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </span>
+                <span id="btn-success-tick" class="hidden absolute">
+                  <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" class="success-checkmark" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </span>
+              </button>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Component -->
+    <footer class="py-12 bg-slate-200 dark:bg-[#080d1a] border-t border-slate-300 dark:border-slate-900 text-center text-xs text-slate-500">
+      <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        <p>© 2026 Alex Johnson. All rights reserved.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:text-[#4f8ef7] transition-colors cursor-hover">Privacy Policy</a>
+          <a href="#" class="hover:text-[#4f8ef7] transition-colors cursor-hover">Terms of Service</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- CDNs and Libraries -->
+    <!-- GSAP for Hero and entry animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- TypedJS for role-writing effect -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    
+    <!-- Vanilla Tilt for 3D card tilts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    
+    <!-- Lucide for vector icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- EmailJS Client Library -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- App Logic Script -->
+    <script type="text/javascript">
+      // 1. Initialize Vector Icons
+      lucide.createIcons();
+
+      // 2. Initialize EmailJS with placeholder credentials
+      emailjs.init({
+        publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
+      });
+
+      // 3. Theme Toggle Engine
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
+      const htmlElement = document.documentElement;
+
+      function updateThemeIcons(isDark) {
+        // Redraw icons if needed, but Tailwind handle showing/hiding beautifully
+      }
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          htmlElement.classList.add('dark');
+          htmlElement.classList.remove('light');
+          localStorage.setItem('portfolio-theme', 'dark');
+        } else {
+          htmlElement.classList.add('light');
+          htmlElement.classList.remove('dark');
+          localStorage.setItem('portfolio-theme', 'light');
+        }
+      }
+
+      // Check Saved Theme or OS Preference
+      const savedTheme = localStorage.getItem('portfolio-theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        setTheme(systemPrefersDark ? 'dark' : 'light');
+      }
+
+      [themeToggleBtn, themeToggleMobileBtn].forEach(btn => {
+        btn?.addEventListener('click', () => {
+          const isCurrentlyDark = htmlElement.classList.contains('dark');
+          setTheme(isCurrentlyDark ? 'light' : 'dark');
+        });
+      });
+
+      // 4. Mobile Menu Navigation Bar
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileDrawer = document.getElementById('mobile-drawer');
+      const menuIcon = document.getElementById('menu-icon');
+
+      function toggleMobileMenu() {
+        const isOpen = mobileDrawer.classList.contains('translate-x-0');
+        if (isOpen) {
+          mobileDrawer.classList.remove('translate-x-0');
+          mobileDrawer.classList.add('translate-x-full');
+          menuIcon.setAttribute('data-lucide', 'menu');
+          lucide.createIcons();
+        } else {
+          mobileDrawer.classList.remove('translate-x-full');
+          mobileDrawer.classList.add('translate-x-0');
+          menuIcon.setAttribute('data-lucide', 'x');
+          lucide.createIcons();
+        }
+      }
+      mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
+
+      // 5. Custom Circular Hover Mouse Cursor
+      const cursorDot = document.getElementById('custom-cursor-dot');
+      const cursorRing = document.getElementById('custom-cursor-ring');
+      
+      let mouseX = 0, mouseY = 0;
+      let ringX = 0, ringY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+
+      // Smooth lag interpolation for the outer cursor ring
+      function animateCursorRing() {
+        const ease = 0.12;
+        ringX += (mouseX - ringX) * ease;
+        ringY += (mouseY - ringY) * ease;
+        
+        cursorRing.style.left = ringX + 'px';
+        cursorRing.style.top = ringY + 'px';
+        
+        requestAnimationFrame(animateCursorRing);
+      }
+      animateCursorRing();
+
+      // Cursor scaling interactions on hovering clickable links/buttons
+      const hoverTargets = document.querySelectorAll('.cursor-hover, a, button, input, textarea, .project-card');
+      hoverTargets.forEach(target => {
+        target.addEventListener('mouseenter', () => {
+          cursorRing.style.width = '64px';
+          cursorRing.style.height = '64px';
+          cursorRing.style.borderColor = '#4f8ef7';
+          cursorRing.style.backgroundColor = 'rgba(79, 142, 247, 0.08)';
+          cursorDot.style.backgroundColor = '#3b82f6';
+        });
+
+        target.addEventListener('mouseleave', () => {
+          cursorRing.style.width = '40px';
+          cursorRing.style.height = '40px';
+          cursorRing.style.borderColor = '#4f8ef7';
+          cursorRing.style.backgroundColor = 'transparent';
+          cursorDot.style.backgroundColor = '#4f8ef7';
+        });
+      });
+
+      // 6. Navigation Scroll Transitions (Transparent -> Glassmorphic)
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          navbar.classList.remove('py-6', 'bg-transparent');
+          navbar.classList.add('py-4', 'glass-nav', 'bg-[#0a0f1e]/85', 'dark:bg-[#0a0f1e]/85', 'light:bg-white/85', 'border-b', 'border-slate-900/50', 'dark:border-slate-900/50', 'light:border-slate-200');
+        } else {
+          navbar.classList.remove('py-4', 'glass-nav', 'bg-[#0a0f1e]/85', 'dark:bg-[#0a0f1e]/85', 'light:bg-white/85', 'border-b', 'border-slate-900/50', 'dark:border-slate-900/50', 'light:border-slate-200');
+          navbar.classList.add('py-6', 'bg-transparent');
+        }
+      });
+
+      // 7. Scroll Progress Bar Update
+      window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercent = (scrollTop / scrollHeight) * 100;
+        document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+      });
+
+      // 8. Staggered Hero Elements Entrance Animation (GSAP)
+      window.addEventListener('DOMContentLoaded', () => {
+        gsap.from(".hero-fade", {
+          opacity: 0,
+          y: 40,
+          duration: 1.2,
+          stagger: 0.18,
+          ease: "power3.out",
+          onComplete: () => {
+            // Initialize Typing Effect after Hero Entrance concludes
+            new Typed('#typed-role', {
+              strings: ['Frontend Developer.', 'UI/UX Specialist.', 'Creative Engineer.'],
+              typeSpeed: 60,
+              backSpeed: 40,
+              backDelay: 1800,
+              loop: true,
+              showCursor: false
+            });
+          }
+        });
+      });
+
+      // 9. Scroll-Triggered Section Entrance (IntersectionObserver)
+      const sectionsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            
+            // If the triggered target is the About section, kick off skill bars
+            if (entry.target.id === 'about') {
+              animateSkillBars();
+            }
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      });
+
+      const revealSections = document.querySelectorAll('.reveal-element');
+      revealSections.forEach(section => {
+        sectionsObserver.observe(section);
+      });
+
+      // 10. Skills Animate-Up Counters and Width Expansion
+      let skillBarsAnimated = false;
+      function animateSkillBars() {
+        if (skillBarsAnimated) return;
+        skillBarsAnimated = true;
+
+        const progressBars = document.querySelectorAll('.skill-progress-bar');
+        const percentLabels = document.querySelectorAll('.skill-percent');
+
+        // Animate progress widths
+        progressBars.forEach(bar => {
+          const width = bar.getAttribute('data-width');
+          bar.style.width = width;
+        });
+
+        // Numerical counting loop animation
+        percentLabels.forEach(label => {
+          const target = parseInt(label.getAttribute('data-target'));
+          let count = 0;
+          const duration = 1200; // ms
+          const increment = target / (duration / 16); // ~60fps
+
+          const counterInterval = setInterval(() => {
+            count += increment;
+            if (count >= target) {
+              label.textContent = target + '%';
+              clearInterval(counterInterval);
+            } else {
+              label.textContent = Math.floor(count) + '%';
+            }
+          }, 16);
+        });
+      }
+
+      // 11. Interactive Drawing Center-Line on scroll
+      window.addEventListener('scroll', () => {
+        const experienceSection = document.getElementById('experience');
+        const activeLine = document.getElementById('timeline-active-line');
+        if (!experienceSection || !activeLine) return;
+
+        const rect = experienceSection.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // Active start trigger is when section top reaches 70% of screen height
+        const startOffset = viewportHeight * 0.7;
+        const totalHeight = rect.height;
+        const relativeScroll = startOffset - rect.top;
+
+        let scrollPercentage = (relativeScroll / totalHeight) * 100;
+        scrollPercentage = Math.max(0, Math.min(100, scrollPercentage));
+
+        activeLine.style.height = `${scrollPercentage}%`;
+      });
+
+      // 12. Contact Form Intercept & Button Morphing Success
+      const contactForm = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('submit-btn');
+      const btnText = document.getElementById('btn-text');
+      const btnSpinner = document.getElementById('btn-spinner');
+      const btnSuccessTick = document.getElementById('btn-success-tick');
+
+      contactForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // 1. Enter Loading State
+        btnText.classList.add('opacity-0');
+        btnSpinner.classList.remove('hidden');
+        submitBtn.disabled = true;
+
+        // 2. Perform Mock / EmailJS Service submission
+        // Since active keys are placeholders, we intercept and gracefully simulate success.
+        setTimeout(() => {
+          // Fade spinner, slide in success tick
+          btnSpinner.classList.add('hidden');
+          btnSuccessTick.classList.remove('hidden');
+          submitBtn.classList.remove('bg-[#4f8ef7]');
+          submitBtn.classList.add('bg-emerald-500');
+
+          // Reset Form Fields
+          contactForm.reset();
+
+          // Create Toast Notification
+          showSuccessToast();
+
+          // Reset Button Morph after 4 seconds
+          setTimeout(() => {
+            submitBtn.classList.add('bg-[#4f8ef7]');
+            submitBtn.classList.remove('bg-emerald-500');
+            btnSuccessTick.classList.add('hidden');
+            btnText.classList.remove('opacity-0');
+            submitBtn.disabled = false;
+          }, 4000);
+
+        }, 1500);
+      });
+
+      function showSuccessToast() {
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-6 right-6 px-6 py-4 rounded-xl bg-emerald-500 text-white font-semibold flex items-center space-x-3 shadow-2xl transform translate-y-12 opacity-0 transition-all duration-500 z-50';
+        toast.innerHTML = `
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span>Message transmitted successfully!</span>
+        `;
+        document.body.appendChild(toast);
+
+        // Animate Toast Entrance
+        setTimeout(() => {
+          toast.classList.remove('translate-y-12', 'opacity-0');
+        }, 100);
+
+        // Toast Exit & Cleanup
+        setTimeout(() => {
+          toast.classList.add('translate-y-12', 'opacity-0');
+          setTimeout(() => {
+            toast.remove();
+          }, 600);
+        }, 4000);
+      }
+
+      // 13. Initialize vanilla-tilt for elements with data-tilt
+      // Tilt initialization runs when DOM is interactive
+      if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+          max: 10,
+          speed: 400,
+          glare: true,
+          "max-glare": 0.25
+        });
+      }
+
+    </script>
+  </body>
+</html>
